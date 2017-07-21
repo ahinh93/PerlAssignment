@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Problem #1 Display Table Data">
+	<meta name="author" content="Andrew Hinh">
+	
+	<title>
+		Apex Systems Code Assessment
+	</title>
+	<style>
+		table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		td{
+			border: 1px solid #dddddd;
+			text-align: left;
+			padding: 8px;
+		}
+		
+		tr:nth-child(odd) {
+			background-color: #dddddd;
+		}
+		#tHeader{
+			background-color:white;
+		}
+	</style>
+	<script>
+		/**
+		*	This function that will convert the raw table data to a visisble table in HTML
+		*	It first checks if the table is non-empty and then passes the data to the two functions: populateTable() and createTableHeader()
+		*	and then print the table onto the document.
+		*	NOTE: This function allows any number of objects to be in table_data.
+		*	Note: Each object in table_data can carry any number of variables.
+		*/
+		function convertToTable()
+		{
+			var table_data = [ { first_name : 'Rose',
+                     last_name  : 'Tyler',
+                     home       : 'Earth' },
+                   { first_name : 'Zoe',
+                     last_name  : 'Heriot',
+                     home       : 'Space Station W3'},
+                   { first_name : 'Jo',
+                     last_name  : 'Grant',
+                     home       : 'Earth'},
+                   { first_name : 'Leela',
+                     last_name  : null,
+                     home       : 'Unspecified'},
+                   { first_name : 'Romana',
+                     last_name  : null,
+                     home       : 'Gallifrey'},
+                   { first_name : 'Clara',
+                     last_name  : 'Oswald',
+                     home       : 'Earth'},
+                   { first_name : 'Adric',
+                     last_name  : null,
+                     home       : 'Alzarius'},
+                   { first_name : 'Susan',
+                     last_name  : 'Foreman',
+                     home       : 'Gallifrey'} ];
+
+			//create reference to table on DOM
+			var table = document.getElementById("myTable");
+			
+			//check if table_data contains data
+			if(table_data == null)
+			{
+				alert("data table does not exist");
+				return;
+			}
+			else if(table_data.length == 0)
+			{
+				alert("data table is empty");
+				return;
+			}
+			
+			//pass table reference and data to fill in the rest of the table
+			populateTable(table,table_data);
+			//pass table reference and data to create the header on DOM
+			createTableHeader(table,table_data);		
+			
+			
+			
+			return 0;
+		}
+		
+		/**
+		*	This function prints the variable names in the objects from table_data onto the document. 
+		*	NOTE: this function assumes that every object have the same variable names
+		*/
+		function createTableHeader(table,table_data)
+		{
+			//create table headers from the variable names of the first object
+			var header = table.createTHead();
+			var tRow = header.insertRow(0);	
+			tRow.id = "tHeader";
+			
+			//determine how many variables are in an object
+			var columnSize = 0;
+			for(var i in table_data[0])
+			{
+				//hasOwnProperty() checks if a value exists
+				if(table_data[0].hasOwnProperty(i))
+				{
+					columnSize++;
+				}
+			}			
+			//check first object for properties, these will determine the table headers
+			var firstObject = table_data[0];
+			var headerValues =[];
+			
+			//populate array with property names
+			for(key in firstObject)
+			{
+				headerValues.push(key);				
+			}
+			
+			//insert values from array to header and load onto the DOM
+			for(var i = 0; i < headerValues.length; i++)
+			{
+				var cell = tRow.insertCell(i);
+				cell.innerHTML = '<b>'+headerValues[i]+'</b>';
+			}			
+		}
+		/**
+		*	This function fills the table on the document with the values from each object in table_data
+		*	by creating a row element and inserting new cells as it reads each variable in an object.
+		*	Each cell gets a copy of the value from the objects in table_data.
+		*/
+		function populateTable(table,table_data)
+		{
+			//loop for each object in table_data
+			for(var i = 0; i < table_data.length; i++)
+			{
+				//prepare new row to display on homepage
+				var row = table.insertRow(i);				
+				var counter = 0;
+				
+				//traverse through each property in the table_data object
+				for(var propName in table_data[i])
+				{
+					//check if object has properties
+					if(table_data[i].hasOwnProperty(propName))
+					{
+						//create a new cell and place in row
+						var currentCell = row.insertCell(counter)
+						//populate cell with entry from data
+						currentCell.innerHTML = table_data[i][propName];
+						counter++;
+					}
+				}				
+			}
+		}
+	</script>
+</head>
+<body onload="convertToTable()">
+	<h1>Problem #1 -- Dynamic Table</h1>
+	<table id="myTable">
+	</table>
+</body>
+</html>
