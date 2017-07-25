@@ -4,28 +4,39 @@
 	<meta charset="UTF-8">
 	<meta name="description" content="Problem #1 Display Table Data">
 	<meta name="author" content="Andrew Hinh">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	
 	<title>
 		HTML Assignment
 	</title>
 	<style>	
+
+		#container {
+			width: 80%;
+			margin: auto;
+			position: relative;
+		}
+		
 		table {
-			font-family: arial, sans-serif;
+			font-family: 'Roboto', sans-serif;
 			border-collapse: collapse;
 			width: 100%;
 		}
 
 		td{
-			border: 1px solid #dddddd;
-			text-align: left;
+			border: 1px solid #f7f7f7;
+			text-align: center;
 			padding: 8px;
 		}
 		
 		tr:nth-child(odd) {
-			background-color: #dddddd;
+			background-color: #f7f7f7;
 		}
-		#tHeader{
-			background-color:white;
+		
+		.myHeader{
+			font-size: 200%;
+			font-weight: bold;
+			color: white;
 		}
 	</style>
 	<script>
@@ -119,11 +130,23 @@
 				headerValues.push(key);				
 			}
 			
-			//insert values from array to header and load onto the DOM
+			//create header cells, insert values from array, then load onto the DOM
 			for(var i = 0; i < headerValues.length; i++)
 			{
 				var cell = tRow.insertCell(i);
-				cell.innerHTML = '<b>'+headerValues[i]+'</b>';
+				cell.classList.add("myHeader");
+				cell.innerHTML = headerValues[i];
+				
+				//assign first three columns to be green, navy, and blue. Following colors are randomized
+				var randomColor = generateRandColor();
+				if(i == 0)
+					cell.style.backgroundColor = "#56ca7c";
+				else if(i == 1)
+					cell.style.backgroundColor = "#5f5fa7";
+				else if(i == 2)
+					cell.style.backgroundColor = "#0e83cd";
+				else
+					cell.style.backgroundColor = randomColor;
 			}			
 		}
 		/**
@@ -155,11 +178,53 @@
 				}				
 			}
 		}
+		function generateRandColor()
+		{
+			Colors = {};
+			Colors.names = {
+				aqua: "#00ffff",
+				azure: "#f0ffff",
+				blue: "#0000ff",
+				brown: "#a52a2a",
+				cyan: "#00ffff",
+				fuchsia: "#ff00ff",
+				gold: "#ffd700",
+				green: "#008000",
+				khaki: "#f0e68c",
+				lightblue: "#add8e6",
+				lightcyan: "#e0ffff",
+				lightgreen: "#90ee90",
+				lightgrey: "#d3d3d3",
+				lightpink: "#ffb6c1",
+				lightyellow: "#ffffe0",
+				lime: "#00ff00",
+				magenta: "#ff00ff",
+				olive: "#808000",
+				orange: "#ffa500",
+				pink: "#ffc0cb",
+				purple: "#800080",
+				violet: "#800080",
+				red: "#ff0000"
+			};
+
+			var result;
+			var count = 0;
+			for(var color in Colors.names)
+			{
+				if(Math.random() < 1/++count)
+				{
+					result = color;
+				}
+			}
+			return result;
+		}
 	</script>
 </head>
 <body onload="convertToTable()">
 	<h1 style="text-align:center">Approach #1 -- Dynamic Table</h1>
-	<table id="myTable">	
-	</table>
+	<div id="container">
+		<table id="myTable">	
+		</table>
+	</div>
 </body>
 </html>
