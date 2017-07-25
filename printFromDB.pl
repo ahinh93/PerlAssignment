@@ -33,8 +33,9 @@ if($ret < 0) {
 }
 
 
-
+=begin comment
 # insert eight rows into the table
+print STDERR "inserting users into table\n";
 $stmt = qq(INSERT INTO USERS (first_name,last_name,home)
            VALUES ('Rose', 'Tyler', 'Earth'));
 $ret = $dbh->do($stmt) or die $DBI::errstr;
@@ -66,7 +67,7 @@ $ret = $dbh->do($stmt) or die $DBI::errstr;
 $stmt = qq(INSERT INTO USERS (first_name,last_name,home)
            VALUES ('Susan', 'Foreman', 'Gallifrey'));
 $ret = $dbh->do($stmt) or die $DBI::errstr;
- 
+=cut 
 
 #select the contents of the table and prints it
 $stmt = qq(SELECT first_name, last_name, home from USERS;);
